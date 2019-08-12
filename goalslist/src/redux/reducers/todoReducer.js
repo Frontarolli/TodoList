@@ -2,9 +2,7 @@ import { ADD_TODO } from '../actions/actionTypes';
 
 const initialState = {
     goals: [
-      {id: '123', goal: "Visit New York", startDate:"date", endDate:"date"},
-      {id: '234', goal: "Buy a House", startDate:"date", endDate:"date"},
-      {id: '345', goal: "Study Economics", startDate:"date", endDate:"date"}
+      {id: '123', goal: "Learn React/Redux", startDate:"2019-08-20", endDate:"2019-08-23"},
     ],
     newValue: ''
   };

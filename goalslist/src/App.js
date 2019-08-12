@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { clickButton } from './redux/actions/index';
+import { addTodoValue } from './redux/actions/index';
+import uuid from "uuid";
 
 import './App.css';
 import GoalItem from './components/GoalItem';
@@ -9,12 +10,48 @@ import GoalItem from './components/GoalItem';
 class App extends Component{
 
   state = {
-    todoValue: ''
+    todoValue: '',
+    startDate: '',
+    endDate: ''
   }
   inputChange = event => {
     this.setState({
       todoValue: event.target.value
     })
+  }
+
+  clearValues = () => {
+    this.setState({
+      todoValue: '',
+      startDate: '',
+      endDate: ''
+    })
+  }
+
+  setStartDate = event => {
+    this.setState({
+      startDate: event.target.value
+    })
+  }
+
+  setEndDate = event => {
+    this.setState({
+      endDate: event.target.value
+    })
+  }
+
+  addTodo = () => {
+    if( (!this.state.todoValue) || (!this.state.startDate) || (!this.state.endDate) ) {
+      alert("Values cannot be empty.");
+    } else{
+      const newObj = this.props.goals.push({id: uuid(), goal: this.state.todoValue, startDate:this.state.startDate, endDate:this.state.endDate});
+      addTodoValue(newObj);
+      this.setState({
+        todoValue: '',
+        startDate: '',
+        endDate: ''
+      })
+    }
   }
 
   render(){
@@ -24,7 +61,8 @@ class App extends Component{
     return (
       <div>
         <div className="container-fluid center header">
-          <h3>Goals List</h3>
+          <h2>Goals List</h2>
+          <h5>A dream whitout a plan is just a dream.</h5>
           <p className="description">A Simple application using React and React Redux</p>
         </div>
         <div className="container">
@@ -39,7 +77,7 @@ class App extends Component{
                 <input 
                 onChange={this.inputChange}
                 type="text"
-                value={this.todoValue}></input>
+                value={this.state.todoValue}></input>
               </div>
             </div>
             <div className="col-md-3">
@@ -47,7 +85,10 @@ class App extends Component{
                 <h6>Start Date</h6>
               </div>
               <div className="row">
-                <input type="date"></input>
+                <input 
+                onChange={this.setStartDate}
+                type="date"
+                value={this.state.startDate}></input>
               </div>
             </div>
   
@@ -56,14 +97,18 @@ class App extends Component{
                 <h6>End Date</h6>
               </div>
               <div className="row">
-                <input type="date"></input>
+                <input 
+                onChange={this.setEndDate}
+                type="date"
+                value={this.state.endDate}
+                ></input>
               </div>
             </div>
   
             <div className="col-md-3">
-                <button className="add" onClick={() => clickButton(this.state.todoValue)}>Add</button>
-                <button className="clear">Clear</button>
-            </div>{console.log(this.props)}
+                <button className="add" onClick={() => this.addTodo()}>Add</button>
+                <button className="clear" onClick={() => this.clearValues()}>Clear</button>
+            </div>{console.log(this.state)}
   
           </div>
   
@@ -96,6 +141,6 @@ const mapStateToProps = store => ({
   goals: store.ToDo.goals
 });
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({clickButton}, dispatch);
+  bindActionCreators({addTodoValue}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

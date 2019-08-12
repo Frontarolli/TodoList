@@ -1,6 +1,7 @@
 import { ADD_TODO } from './actionTypes';
 
-export const clickButton = value => ({
+export const addTodoValue = value => (
+  {
     type: ADD_TODO,
-    newValue: value
+    goals: value
   });

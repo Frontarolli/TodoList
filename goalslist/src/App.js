@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { clickButton } from './redux/actions/index';
+
 import './App.css';
 import GoalItem from './components/GoalItem';
 
 class App extends Component{
 
-  constructor(props){
-    super(props);
-    this.state = {
-      goals: [
-        {id: '123', goal: "Visit New York", startDate:"date", endDate:"date"},
-        {id: '234', goal: "Buy a House", startDate:"date", endDate:"date"},
-        {id: '345', goal: "Study Economics", startDate:"date", endDate:"date"}
-      ]
-    }
+  state = {
+    todoValue: ''
+  }
+  inputChange = event => {
+    this.setState({
+      todoValue: event.target.value
+    })
   }
 
   render(){
+
+    const { goals, clickButton } = this.props;
+
     return (
       <div>
         <div className="container-fluid center header">
           <h3>Goals List</h3>
+          <p className="description">A Simple application using React and React Redux</p>
         </div>
         <div className="container">
   
@@ -30,10 +36,12 @@ class App extends Component{
                 <h6>Goal</h6>
               </div>
               <div className="row">
-                <input type="text"></input>
+                <input 
+                onChange={this.inputChange}
+                type="text"
+                value={this.todoValue}></input>
               </div>
             </div>
-  
             <div className="col-md-3">
               <div className="row">
                 <h6>Start Date</h6>
@@ -53,9 +61,9 @@ class App extends Component{
             </div>
   
             <div className="col-md-3">
-                <button className="add">Add</button>
+                <button className="add" onClick={() => clickButton(this.state.todoValue)}>Add</button>
                 <button className="clear">Clear</button>
-            </div>
+            </div>{console.log(this.props)}
   
           </div>
   
@@ -70,7 +78,7 @@ class App extends Component{
               </thead>
               <tbody>                
                 {
-                  this.state.goals.map( goal => {
+                  goals.map( goal => {
                     return <GoalItem key={goal.id} goal={goal.goal} startDate={goal.startDate} endDate={goal.endDate} />
                   })
                 }
@@ -84,5 +92,10 @@ class App extends Component{
   }
 }
 
+const mapStateToProps = store => ({
+  goals: store.ToDo.goals
+});
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({clickButton}, dispatch);
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

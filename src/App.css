@@ -41,3 +41,12 @@
   margin: 2px;
 }
 
+.remove {
+  background-color: #c72a24;
+  border: none;
+  color: #fff;
+  font-size: 0.8em;
+  height: 25px;
+  width: 60px;
+  margin: 2px;
+}

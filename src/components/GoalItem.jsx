@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
-
-class GoalItem extends Component {    
+class GoalItem extends Component {
     render(){
         return(
-            <>
-                <tr>
-                    <th>{this.props.goal}</th>
-                    <td>{this.props.startDate}</td>
-                    <td>{this.props.endDate}</td>
-                </tr>
-            </>
+            <Fragment>
+                <th>{this.props.goal}</th>
+                <td>{this.props.startDate}</td>
+                <td>{this.props.endDate}</td>
+            </Fragment>
         );
     }
 }
